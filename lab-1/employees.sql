@@ -155,6 +155,10 @@ WHERE NOT EXISTS(
 );
 
 -- 5.13
+SELECT dept_emp.dept_no, MAX(departments.dept_name), COUNT(dept_emp.emp_no)
+FROM dept_emp, departments
+WHERE departments.dept_no = dept_emp.dept_no
+GROUP BY dept_emp.dept_no HAVING COUNT(emp_no) > 50000;
 
 
 -- 5.14
