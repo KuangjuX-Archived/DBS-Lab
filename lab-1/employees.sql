@@ -96,30 +96,70 @@ SELECT * FROM employees WHERE first_name LIKE 'Peter%' OR last_name LIKE 'Peter%
 SELECT salary as max_salary FROM salaries ORDER BY salary desc limit 1;
 
 -- 5.6
-
+SELECT dept_no, COUNT(dept_no) AS dept_emp_count FROM dept_emp GROUP BY dept_no;
 
 -- 5.7
-
+SELECT 
+employees.emp_no, 
+dept_emp.dept_no,
+dept_emp.from_date
+FROM employees, dept_emp
+WHERE employees.first_name = 'Peternela' 
+AND employees.last_name = 'Anick' 
+AND employees.emp_no=dept_emp.emp_no;
 
 -- 5.8
+SELECT 
+employees_1.emp_no,
+employees_2.emp_no,
+employees_1.first_name,
+employees_1.last_name
+FROM employees AS employees_1, employees AS employees_2 
+WHERE employees_1.first_name = employees_2.first_name
+AND employees_1.last_name = employees_2.last_name
+AND employees_1.emp_no != employees_2.emp_no;
 
 
 -- 5.9
-
+SELECT emp_no FROM employees WHERE first_name = 'Margo' AND last_name = 'Anily'
+UNION
+SELECT emp_no FROM employees WHERE birth_date = '1959-10-30' AND hire_date = '1989-09-12';
 
 -- 5.10
+SELECT dept_name FROM departments
+WHERE dept_no = (
+	SELECT dept_no FROM dept_emp
+	WHERE emp_no = (
+		SELECT emp_no FROM employees
+		WHERE first_name = 'Margo' AND last_name = 'Anily'
+	)
+);
 
 		
 -- 5.11
+SELECT dept_name FROM 
+(departments JOIN dept_emp ON departments.dept_no = dept_emp.dept_no)
+JOIN employees ON employees.emp_no = dept_emp.emp_no
+WHERE employees.first_name = 'Margo' AND employees.last_name = 'Anily';
 
 
 -- 5.12
-
+SELECT emp_no, first_name, last_name FROM employees
+WHERE NOT EXISTS(
+	SELECT * FROM dept_emp
+	WHERE NOT EXISTS(
+		SELECT * FROM departments
+		WHERE departments.dept_no = dept_emp.dept_no 
+		AND employees.emp_no = dept_emp.emp_no
+	)
+);
 
 -- 5.13
 
 
 -- 5.14
+INSERT INTO employees (emp_no, birth_date, first_name, last_name, gender, hire_date) 
+VALUES(10000, '1981-10-01', 'Jimmy', 'Lin', 'M', '2011-12-08');
 
 
 -- 5.15
