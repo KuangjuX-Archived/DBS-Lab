@@ -167,13 +167,16 @@ VALUES(10000, '1981-10-01', 'Jimmy', 'Lin', 'M', '2011-12-08');
 
 
 -- 5.15
-
+UPDATE employees SET first_name = 'Jim' WHERE emp_no = 10000;
 
 -- 5.16
-
+DELETE FROM employees WHERE emp_no = 10000;
 
 -- 5.17
-
+INSERT INTO employees (emp_no, birth_date, first_name, last_name, gender, hire_date) 
+VALUES(10001, '1981-10-1', 'Jimmy', 'Lin', 'M', '2011-12-8');
+由于我使用id作为主键，会执行成功；但如果使用emp_no作为主键则会先删除相应的行再插入新行。
 
 -- 5.18
-
+DELETE FROM employees WHERE emp_no = 10001;
+删除新行
