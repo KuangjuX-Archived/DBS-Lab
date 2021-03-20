@@ -117,7 +117,7 @@ employees_1.last_name
 FROM employees AS employees_1, employees AS employees_2 
 WHERE employees_1.first_name = employees_2.first_name
 AND employees_1.last_name = employees_2.last_name
-AND employees_1.emp_no != employees_2.emp_no;
+AND employees_1.emp_no != employees_2.emp_no LIMIT 10;
 
 
 -- 5.9
@@ -155,7 +155,7 @@ WHERE NOT EXISTS(
 );
 
 -- 5.13
-SELECT dept_emp.dept_no, MAX(departments.dept_name), COUNT(dept_emp.emp_no)
+SELECT dept_emp.dept_no, MAX(departments.dept_name) AS dept_name, COUNT(dept_emp.emp_no) AS dept_emp_count
 FROM dept_emp, departments
 WHERE departments.dept_no = dept_emp.dept_no
 GROUP BY dept_emp.dept_no HAVING COUNT(emp_no) > 50000;
@@ -175,8 +175,8 @@ DELETE FROM employees WHERE emp_no = 10000;
 -- 5.17
 INSERT INTO employees (emp_no, birth_date, first_name, last_name, gender, hire_date) 
 VALUES(10001, '1981-10-1', 'Jimmy', 'Lin', 'M', '2011-12-8');
--- 由于我使用id作为主键，会执行成功；但如果使用emp_no作为主键则会先删除相应的行再插入新行。
+-- 由于我使用id作为主键，会执行成功；但如果使用emp_no作为主键则会报错。
 
 -- 5.18
 DELETE FROM employees WHERE emp_no = 10001;
--- 删除新行
+-- 删除行
