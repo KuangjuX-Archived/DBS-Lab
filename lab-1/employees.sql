@@ -56,6 +56,11 @@ CREATE TABLE dept_manager(
 	to_date DATE
 );
 
+
+ALTER TABLE employees drop CONSTRAINT employees_pkey;
+
+ALTER TABLE employees add PRIMARY KEY(emp_no);
+
 -- 测试创建的空表
 SELECT * FROM employees;
 SELECT * FROM departments;
@@ -175,8 +180,10 @@ DELETE FROM employees WHERE emp_no = 10000;
 -- 5.17
 INSERT INTO employees (emp_no, birth_date, first_name, last_name, gender, hire_date) 
 VALUES(10001, '1981-10-1', 'Jimmy', 'Lin', 'M', '2011-12-8');
--- 由于我使用id作为主键，会执行成功；但如果使用emp_no作为主键则会报错。
+-- ERROR: 错误:  重复键违反唯一约束"employees_pkey"
+-- DETAIL:  键值"(emp_no)=(10001)" 已经存在
 
 -- 5.18
 DELETE FROM employees WHERE emp_no = 10001;
--- 删除行
+-- DELETE 1
+-- Query returned successfully in 38 msec.
